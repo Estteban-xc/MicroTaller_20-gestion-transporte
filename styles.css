@@ -5,3 +5,11 @@
 @media(max-width:390px){.nav-link{font-size:0;width:34px;justify-content:center}.nav-icon{font-size:17px}.page-heading h1{font-size:22px}.filter-control>span{font-size:8px}.kpi-value.currency{font-size:15px}.kpi-foot{font-size:7px}.filter-control input,.filter-control select{max-width:110px}.form-grid{grid-template-columns:1fr}.form-dialog{max-height:88vh}}
 
 .efficiency-chart{height:188px;align-items:stretch;justify-content:flex-start;flex-direction:column;gap:12px;padding:14px 0 3px}.efficiency-row{display:grid;grid-template-columns:58px minmax(30px,1fr) 62px;align-items:center;gap:8px}.efficiency-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#a86b10,var(--amber));box-shadow:0 0 12px #fbbf2436;transition:width .3s}.efficiency-value{text-align:right;font:9px var(--mono);color:#e6c879;white-space:nowrap}
+
+
+
+/* Ocultar la sección “Sobre el proyecto” y su botón del menú */
+.nav-link[data-view="proyecto"],
+#view-proyecto {
+  display: none !important;
+}
