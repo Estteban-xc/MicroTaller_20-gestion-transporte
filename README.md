@@ -1,48 +1,44 @@
 # Ruta 20 — Gestión de transporte
 
-Mini proyecto académico de Mauricio Varela para el microtaller 20. Aplicación estática en español para registrar recorridos, vehículos, distancias y costos, con dashboard interactivo.
+Mini proyecto académico de **Mauricio Varela** para el microtaller 20. Es una aplicación web en español para registrar recorridos, vehículos, distancias y costos, y consultar esa información en un dashboard interactivo.
 
 ## Problema
-Cuando los recorridos y los gastos de transporte se anotan de forma dispersa, cuesta determinar cuánto se viajó, qué vehículos se usaron y dónde se concentra el gasto. Ruta 20 organiza esa bitácora y facilita revisar costos y kilómetros para apoyar el control de la operación.
 
-## Qué incluye
+Cuando los recorridos y los gastos de transporte se registran de forma dispersa, es difícil conocer la distancia recorrida, el uso de cada vehículo y la distribución de los costos. Ruta 20 organiza estos datos en una bitácora y los presenta mediante indicadores y gráficos que facilitan su análisis.
 
-- 24 registros de ejemplo ficticios, preparados para la demostración académica.
-- Formulario de alta y edición con validación, confirmación al eliminar y búsqueda en la bitácora.
-- Persistencia en `localStorage` del navegador, opción para restaurar los registros ficticios y exportación CSV.
-- Dashboard con cuatro KPI: recorridos, kilómetros, costos totales y costo por kilómetro.
-- Cuatro gráficos dinámicos: costo diario, kilómetros por vehículo, distribución de costo por tipo y costo por kilómetro según vehículo.
-- Tres conclusiones que cambian con los filtros activos.
-- Guía del problema, alcance, evidencia del taller, instrucciones de GitHub Pages y guion de video de aproximadamente dos minutos.
+## Solución
 
-## Tecnología y estructura
+La aplicación reúne en un mismo espacio el registro y la consulta de recorridos junto con un dashboard de análisis. Cada recorrido incluye fecha, vehículo, conductor, origen, destino, tipo de recorrido, kilómetros y costo.
 
-El sitio funciona completamente con HTML, CSS y JavaScript del navegador. No ejecuta Python ni necesita un backend, inicio de sesión o paquetes externos para las características principales. Los datos editados se guardan localmente en el navegador donde se usó el sitio; no se sincronizan entre visitantes.
+El formulario permite agregar y editar registros, y la bitácora ofrece búsqueda, eliminación con confirmación y exportación de los datos en formato CSV.
 
-- `index.html`: pantallas, formulario y contenido académico.
-- `styles.css`: identidad visual Panel Nocturno y diseño adaptable.
-- `app.js`: registros, filtros, cálculos, gráficos, exportación y almacenamiento local.
-- `route20-logo.svg`: icono del proyecto.
-- `manus-routes.json`: ruta declarada para la vista previa.
-- `server.js` y `package.json`: servidor opcional de vista previa local.
+## Dashboard
 
-## Vista previa local
+El tablero presenta cuatro indicadores clave:
 
-Requiere Node.js solamente para levantar el servidor de prueba local:
+- Cantidad de recorridos.
+- Kilómetros recorridos.
+- Costo total del transporte.
+- Costo promedio por kilómetro.
 
-```bash
-npm run dev
-```
+También contiene cuatro gráficos dinámicos sobre costos diarios, kilómetros por vehículo, distribución de costos según el tipo de recorrido y costo por kilómetro de cada vehículo. Los filtros permiten consultar distintos periodos y vehículos. Las tres conclusiones del tablero cambian de acuerdo con los datos filtrados.
 
-Luego abre `http://localhost:3000`. Para la publicación en GitHub Pages no se instala ni ejecuta Node en el sitio publicado: Pages sirve directamente `index.html` y sus recursos estáticos.
+## Datos de ejemplo
 
-## Publicar en GitHub Pages
+La aplicación incluye 24 recorridos ficticios para demostrar sus funciones. Los datos son simulados y se utilizan exclusivamente con fines académicos; no representan viajes u operaciones reales.
 
-1. Crea un repositorio en GitHub y sube `index.html`, `styles.css`, `app.js` y `route20-logo.svg` a la raíz.
-2. En el repositorio, abre **Settings → Pages**.
-3. En **Build and deployment**, elige **Deploy from a branch**, selecciona `main` y la carpeta `/(root)`, y guarda.
-4. Espera a que Pages publique el sitio. Copia el enlace que GitHub muestra en esa sección y compártelo con el profesor.
+## Tecnología
 
-## Datos de muestra
+Ruta 20 está desarrollada con HTML, CSS y JavaScript. No requiere Python, inicio de sesión ni un backend para utilizar sus funciones principales. Los datos agregados o modificados se guardan en el almacenamiento local del navegador y no se sincronizan entre diferentes personas o dispositivos.
 
-Las rutas y costos son ficticios e ilustrativos; se usan únicamente con fines académicos. Si se reemplazan por información real, usa solo datos autorizados y evita incluir información privada innecesaria.
+El sitio es estático y compatible con GitHub Pages. Cada visitante ve inicialmente los registros de ejemplo, mientras que los cambios realizados quedan guardados localmente en su propio navegador.
+
+## Archivos principales
+
+- `index.html`: estructura de la aplicación, formulario y contenido del proyecto.
+- `styles.css`: diseño visual adaptable a escritorio y dispositivos móviles.
+- `app.js`: registro y consulta de datos, filtros, cálculos, gráficos, conclusiones y exportación.
+- `route20-logo.svg`: ícono de Ruta 20.
+- `README.md`: descripción del proyecto y sus características.
+
+`server.js` y `package.json` se incluyen para la vista previa local; no son necesarios para el funcionamiento de la versión estática publicada en GitHub Pages.
