@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1120">
+  <meta name="description" content="Mini proyecto académico de Mauricio Varela para registrar recorridos, vehículos y costos de transporte.">
+  <title>Ruta 20 | Gestión de transporte</title>
+  <link rel="icon" href="./route20-logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegación principal">
+      <a class="brand" href="#inicio" aria-label="Ruta 20, inicio">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 36 36"><path d="M8 29 16.5 7h3L28 29h-5.4L18 16.8 13.4 29z"/><path d="M5 32h26"/></svg></span>
+        <span><strong>RUTA<span>20</span></strong><small>GESTIÓN DE TRANSPORTE</small></span>
+      </a>
+      <div class="side-label">ESPACIO DE TRABAJO</div>
+      <nav class="side-nav">
+        <button class="nav-link active" data-view="dashboard"><span class="nav-icon">◫</span> Dashboard <span class="nav-dot"></span></button>
+        <button class="nav-link" data-view="recorridos"><span class="nav-icon">↗</span> Recorridos <span class="nav-count" id="nav-count">20</span></button>
+        <button class="nav-link" data-view="proyecto"><span class="nav-icon">ⓘ</span> Sobre el proyecto</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="live-card"><span class="live-pulse"></span><div><b>Modo demostración</b><small>Datos ficticios · Octubre 2026</small></div></div>
+        <div class="profile"><div class="avatar">MV</div><div><b>Mauricio Varela</b><small>Estudiante · Microtaller 20</small></div></div>
+      </div>
+    </aside>
+
+    <main class="main-content" id="inicio">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Microtalleres</span><span class="crumb-sep">/</span><b>20 · Gestión de transporte</b></div>
+        <div class="topbar-actions"><span class="demo-pill"><i></i> DATOS DE DEMOSTRACIÓN</span><button class="icon-button" id="export-top" title="Exportar datos CSV" aria-label="Exportar datos CSV">⇩</button></div>
+      </header>
+
+      <section class="view-section active" id="view-dashboard" aria-labelledby="page-title">
+        <div class="page-heading">
+          <div><div class="eyebrow"><span class="eyebrow-line"></span> CENTRO DE OPERACIONES <span class="eyebrow-tag">MICROTALLER 20</span></div>
+            <h1 id="page-title">Gestión de <span>transporte</span></h1>
+            <p class="heading-copy">Recorridos, costos y distancias. Todo el movimiento, bajo control.</p>
+          </div>
+          <button class="primary-button" data-open-form><span>＋</span> Nuevo recorrido</button>
+        </div>
+        <div class="notice"><span class="notice-icon">i</span><p><strong>Entorno académico.</strong> Los registros iniciales son ficticios y se usan únicamente para demostrar el funcionamiento del proyecto.</p><button class="notice-close" aria-label="Cerrar aviso">×</button></div>
+
+        <div class="filter-row">
+          <div class="filter-caption"><span class="filter-glyph">⌁</span><span>FILTRAR TABLERO</span></div>
+          <label class="filter-control"><span>Desde</span><input type="date" id="filter-from" value="2026-10-01"></label>
+          <label class="filter-control"><span>Hasta</span><input type="date" id="filter-to" value="2026-10-31"></label>
+          <label class="filter-control vehicle-filter"><span>Vehículo</span><select id="filter-vehicle"><option value="">Todos los vehículos</option></select></label>
+          <button class="text-button" id="reset-filters">Restablecer</button>
+        </div>
+
+        <div class="section-title"><div><span class="section-kicker">RESUMEN DEL PERÍODO</span><h2>Indicadores clave</h2></div><span class="updated-label"><span class="status-dot"></span> Actualizado al instante</span></div>
+        <div class="kpi-grid">
+          <article class="kpi-card kpi-cyan"><div class="kpi-top"><span>RECORRIDOS REALIZADOS</span><span class="kpi-icon">↗</span></div><div class="kpi-value" id="kpi-trips">—</div><div class="kpi-foot"><span class="kpi-mini-bar"></span> Viajes registrados en el período</div></article>
+          <article class="kpi-card kpi-blue"><div class="kpi-top"><span>DISTANCIA TOTAL</span><span class="kpi-icon">⌁</span></div><div class="kpi-value" id="kpi-km">—</div><div class="kpi-foot"><span class="kpi-mini-bar"></span> Kilómetros recorridos</div></article>
+          <article class="kpi-card kpi-violet"><div class="kpi-top"><span>COSTO ACUMULADO</span><span class="kpi-icon">＄</span></div><div class="kpi-value currency" id="kpi-cost">—</div><div class="kpi-foot"><span class="kpi-mini-bar"></span> Pesos colombianos · COP</div></article>
+          <article class="kpi-card kpi-amber"><div class="kpi-top"><span>COSTO PROMEDIO / KM</span><span class="kpi-icon">◎</span></div><div class="kpi-value currency" id="kpi-per-km">—</div><div class="kpi-foot"><span class="kpi-mini-bar"></span> Eficiencia del gasto por distancia</div></article>
+        </div>
+
+        <div class="section-title charts-title"><div><span class="section-kicker">LECTURA DE LA OPERACIÓN</span><h2>Comportamiento de la flota</h2></div><span class="chart-period" id="chart-period">OCTUBRE 2026</span></div>
+        <div class="charts-grid">
+          <article class="panel chart-panel chart-wide"><div class="panel-heading"><div><h3>Costos por día</h3><p>Distribución diaria de gastos de recorrido</p></div><span class="panel-unit">COP / DÍA</span></div><div class="chart-canvas" id="daily-chart" role="img" aria-label="Gráfico de costos por día"></div><div class="chart-legend"><span><i class="legend-cyan"></i> Costo diario</span><span id="daily-total-legend"></span></div></article>
+          <article class="panel chart-panel"><div class="panel-heading"><div><h3>Distancia por vehículo</h3><p>Uso acumulado de cada unidad</p></div><span class="panel-unit">KM</span></div><div class="chart-canvas vehicle-chart" id="vehicle-chart" role="img" aria-label="Gráfico de kilómetros por vehículo"></div></article>
+          <article class="panel chart-panel"><div class="panel-heading"><div><h3>Costos por tipo</h3><p>¿A dónde se va el presupuesto?</p></div><span class="panel-unit">COP</span></div><div class="chart-canvas type-chart" id="type-chart" role="img" aria-label="Gráfico de costos por tipo de recorrido"></div></article>
+          <article class="panel chart-panel"><div class="panel-heading"><div><h3>Costo por kilómetro</h3><p>Comparación del costo unitario por vehículo</p></div><span class="panel-unit">COP / KM</span></div><div class="chart-canvas efficiency-chart" id="efficiency-chart" role="img" aria-label="Gráfico de costo promedio por kilómetro para cada vehículo"></div></article>
+        </div>
+
+        <div class="section-title conclusion-heading"><div><span class="section-kicker">LECTURA DE LOS DATOS</span><h2>Conclusiones automáticas</h2></div><span class="auto-badge">SE ACTUALIZAN CON LOS FILTROS</span></div>
+        <div class="conclusions-grid" id="conclusions"></div>
+        <footer class="page-footer"><span>RUTA 20 <i>·</i> PROYECTO ACADÉMICO DE MAURICIO VARELA</span><span>Los cambios se guardan en este navegador</span></footer>
+      </section>
+
+      <section class="view-section" id="view-recorridos" aria-labelledby="trips-title">
+        <div class="page-heading compact-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> BASE DE DATOS <span class="eyebrow-tag">REGISTRO OPERATIVO</span></div><h1 id="trips-title">Bitácora de <span>recorridos</span></h1><p class="heading-copy">Consulta, filtra y administra los movimientos de la flota.</p></div><button class="primary-button" data-open-form><span>＋</span> Nuevo recorrido</button></div>
+        <div class="table-toolbar"><div class="search-wrap"><span>⌕</span><input type="search" id="table-search" placeholder="Buscar ruta, vehículo o conductor..." aria-label="Buscar recorridos"></div><div class="toolbar-right"><span class="record-count" id="record-count">20 registros</span><button class="secondary-button" id="export-csv"><span>⇩</span> Exportar CSV</button><button class="secondary-button reset-button" id="restore-data" title="Recuperar registros de demostración">↺ Restaurar demo</button></div></div>
+        <div class="panel table-panel"><div class="table-scroll"><table><thead><tr><th>FECHA</th><th>VEHÍCULO / CONDUCTOR</th><th>TRAYECTO</th><th>TIPO</th><th class="num">DISTANCIA</th><th class="num">COSTO</th><th class="actions-col">ACCIONES</th></tr></thead><tbody id="trip-rows"></tbody></table></div><div class="empty-state hidden" id="empty-state"><span>⌕</span><b>No encontramos recorridos</b><small>Prueba cambiar la búsqueda o registra un nuevo viaje.</small></div></div>
+        <div class="table-note"><span class="status-dot"></span> Base de datos local · <b id="table-total">20</b> recorridos almacenados en este dispositivo</div>
+      </section>
+
+      <section class="view-section" id="view-proyecto" aria-labelledby="project-title">
+        <div class="page-heading compact-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> GUÍA DEL PROYECTO <span class="eyebrow-tag">ENTREGABLES</span></div><h1 id="project-title">De la ruta al <span>análisis</span></h1><p class="heading-copy">La idea, el desarrollo y cómo presentarlo en clase.</p></div></div>
+        <div class="project-intro panel"><div class="project-number">20</div><div><span class="section-kicker">MICROTALLER INDIVIDUAL · MAURICIO VARELA</span><h2>Gestión de transporte</h2><p>Registrar recorridos, vehículos y costos de transporte para entender cómo se mueve una operación y cuánto cuesta.</p></div></div>
+        <div class="project-grid">
+          <article class="panel info-panel"><span class="info-index">01 / PROBLEMA</span><h3>¿Qué situación busca solucionar?</h3><p>Cuando los recorridos, los kilómetros y los gastos de una flota se anotan de forma dispersa, es difícil saber cuánto se viajó, qué vehículos se usaron y dónde se concentra el gasto. Este proyecto organiza esos datos en una bitácora y los convierte en indicadores que ayudan a controlar y comparar la operación de transporte.</p></article>
+          <article class="panel info-panel"><span class="info-index">02 / DESARROLLO TÉCNICO</span><h3>¿Cómo funciona?</h3><p>El formulario valida y registra fecha, vehículo, conductor, trayecto, tipo de recorrido, kilómetros y costo. JavaScript actualiza la tabla y los gráficos en el navegador; los datos se conservan en el almacenamiento local de este dispositivo. No requiere servidor para la demostración estática.</p><div class="tech-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>localStorage</span></div></article>
+          <article class="panel info-panel"><span class="info-index">03 / CONSTRUCCIÓN DE DATOS</span><h3>Base de demostración</h3><p>Se incluyen más de 20 recorridos ficticios de ejemplo para probar el sistema. Puedes agregar, editar, eliminar y exportar registros. Los datos son didácticos: no describen operaciones reales ni personas reales.</p><button class="inline-action" data-open-form>＋ Agregar un recorrido</button></article>
+          <article class="panel info-panel"><span class="info-index">04 / ALCANCE DE LA PUBLICACIÓN</span><h3>Listo para GitHub Pages</h3><p>Esta aplicación es estática y se puede publicar como un sitio de GitHub Pages. No necesita Python en el servidor ni instalar programas. Cada visitante empieza con los registros de ejemplo; los cambios que haga se guardan solo en su navegador y no se sincronizan con otros usuarios.</p><div class="local-note"><span>i</span> Para que el profesor vea tus datos personalizados, conserva los ejemplos o exporta la tabla y prepara una captura del tablero.</div></article>
+        </div>
+        <div class="section-title evidence-title"><div><span class="section-kicker">CIERRE DE LA ENTREGA</span><h2>Evidencia para el taller</h2></div></div>
+        <div class="evidence-grid">
+          <article class="evidence-card"><div class="evidence-symbol">▧</div><div><h3>1. Archivo de trabajo</h3><p>Entrega el código de la aplicación. Los archivos principales son <code>index.html</code>, <code>styles.css</code> y <code>app.js</code>.</p></div></article>
+          <article class="evidence-card"><div class="evidence-symbol">▣</div><div><h3>2. Captura del dashboard</h3><p>Abre la vista Dashboard, deja visibles los cuatro KPI y los gráficos, y toma una captura de pantalla para anexarla a tu entrega.</p></div></article>
+          <article class="evidence-card"><div class="evidence-symbol">▷</div><div><h3>3. Video explicativo · máximo 3 min</h3><p>Presenta el problema, registra o edita un recorrido, muestra los KPI y gráficos, y cierra con tres hallazgos del análisis.</p></div></article>
+        </div>
+        <div class="script-panel"><div class="script-header"><span class="section-kicker">GUION SUGERIDO</span><span class="duration">≈ 2 MINUTOS</span></div><p><b>0:00–0:25</b> “Hola, soy Mauricio Varela. Mi microtaller es Gestión de transporte. El problema es que, sin una bitácora organizada, cuesta controlar recorridos, kilómetros y gastos.”</p><p><b>0:25–0:55</b> “Esta aplicación permite registrar fecha, vehículo, conductor, trayecto, tipo de recorrido, distancia y costo. Incluye más de 20 registros ficticios de demostración y guarda los cambios en este navegador.”</p><p><b>0:55–1:35</b> “En el dashboard consulto recorridos, kilómetros, costo total y costo por kilómetro. Los gráficos comparan el gasto diario, la distancia recorrida por vehículo y los costos según el tipo de recorrido.”</p><p><b>1:35–2:00</b> “Con estos datos puedo identificar dónde se concentra el gasto y comparar el uso de los vehículos. Los registros son ficticios y las conclusiones sirven para mostrar cómo los datos apoyan decisiones de transporte.”</p></div>
+        <div class="github-guide panel"><div class="github-mark">⌘</div><div><span class="section-kicker">PUBLICACIÓN PÚBLICA</span><h3>Cómo subirla a GitHub Pages</h3><ol><li>Crea un repositorio en GitHub y sube los archivos de la aplicación a la raíz del repositorio.</li><li>Abre <b>Settings → Pages</b> en ese repositorio.</li><li>En “Build and deployment”, elige <b>Deploy from a branch</b>, selecciona la rama <b>main</b> y la carpeta <b>/(root)</b>; luego pulsa <b>Save</b>.</li><li>Espera a que GitHub publique el sitio y abre el enlace que aparece en esa misma sección para compartirlo con el profesor.</li></ol><p class="github-tip">La versión de GitHub Pages conserva su propia copia local en cada navegador. La información no se transmite entre estudiantes ni se centraliza.</p></div></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="form-dialog" id="trip-dialog" aria-labelledby="form-title"><form id="trip-form"><div class="dialog-top"><div><span class="section-kicker">BITÁCORA DE TRANSPORTE</span><h2 id="form-title">Nuevo recorrido</h2></div><button type="button" class="close-dialog" id="close-dialog" aria-label="Cerrar formulario">×</button></div><input type="hidden" id="trip-id"><div class="form-grid"><label class="form-field"><span>Fecha <b>*</b></span><input id="trip-date" type="date" required></label><label class="form-field"><span>Vehículo <b>*</b></span><input id="trip-vehicle" type="text" placeholder="Ej. VAN-01" maxlength="20" required></label><label class="form-field"><span>Conductor <b>*</b></span><input id="trip-driver" type="text" placeholder="Nombre del conductor" maxlength="50" required></label><label class="form-field"><span>Tipo de recorrido <b>*</b></span><select id="trip-type" required><option value="">Selecciona un tipo</option><option>Urbano</option><option>Carga</option><option>Mensajería</option><option>Intermunicipal</option><option>Otro</option></select></label><label class="form-field"><span>Origen <b>*</b></span><input id="trip-origin" type="text" placeholder="Ciudad o municipio" maxlength="50" required></label><label class="form-field"><span>Destino <b>*</b></span><input id="trip-destination" type="text" placeholder="Ciudad o municipio" maxlength="50" required></label><label class="form-field"><span>Distancia (km) <b>*</b></span><input id="trip-km" type="number" min="0.1" step="0.1" placeholder="0" required></label><label class="form-field"><span>Costo (COP) <b>*</b></span><input id="trip-cost" type="number" min="0" step="1000" placeholder="0" required></label></div><div class="form-hint"><span>i</span> Usa datos autorizados o ficticios. Este registro se guardará únicamente en este navegador.</div><div class="dialog-actions"><button type="button" class="secondary-button" id="cancel-dialog">Cancelar</button><button class="primary-button" type="submit" id="save-trip">Guardar recorrido <span>→</span></button></div></form></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
